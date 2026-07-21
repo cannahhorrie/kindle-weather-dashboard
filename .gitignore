@@ -1,0 +1,5 @@
+venv/
+__pycache__/
+dashboard_raw.png
+dashboard_rendered.html
+.DS_Store

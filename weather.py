@@ -1,8 +1,8 @@
 import requests
-import subprocess
 import datetime
 from pathlib import Path
 from PIL import Image
+from playwright.sync_api import sync_playwright
 
 LAT, LON = 51.5997, -0.0960  # N22 5LR
 LOCATION = "London"
@@ -20,7 +20,6 @@ WEATHER_CODES = {
     95: "Thunderstorm", 96: "Thunderstorm + Hail", 99: "Thunderstorm + Hail",
 }
 
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 HERE = Path(__file__).parent
 
 
@@ -176,16 +175,16 @@ html = (
 rendered_path = HERE / "dashboard_rendered.html"
 rendered_path.write_text(html)
 
-# ---- 3. Screenshot via headless Chrome ----
+# ---- 3. Screenshot via Playwright's bundled Chromium (same on macOS and CI) ----
 raw_path = HERE / "dashboard_raw.png"
-subprocess.run([
-    CHROME, "--headless", "--disable-gpu", "--screenshot=" + str(raw_path),
-    "--window-size=600,800", "--default-background-color=FFFFFFFF",
-    "file://" + str(rendered_path),
-], check=True, capture_output=True)
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    page = browser.new_page(viewport={"width": 600, "height": 800})
+    page.goto("file://" + str(rendered_path))
+    page.screenshot(path=str(raw_path))
+    browser.close()
 
-# ---- 4. Crop to exactly 600x800 and flatten to grayscale for the Kindle ----
+# ---- 4. Flatten to grayscale for the Kindle ----
 img = Image.open(raw_path).convert("L")
-img = img.crop((0, 0, 600, 800))
 img.save(HERE / "dashboard.png")
 print("Saved dashboard.png!")
