@@ -128,12 +128,12 @@ def hour_index(target_hour):
     return hourly_time.index(target_str)
 
 
-idx_9am = hour_index(9)
+idx_8am = hour_index(8)
 idx_3pm = hour_index(15)
 idx_9pm = hour_index(21)
 
 slots = [
-    ("MORNING", "9 AM", hourly_temp[idx_9am], hourly_code[idx_9am], False),
+    ("MORNING", "8 AM", hourly_temp[idx_8am], hourly_code[idx_8am], False),
     ("AFTERNOON", "3 PM", hourly_temp[idx_3pm], hourly_code[idx_3pm], False),
     ("EVENING", "9 PM", hourly_temp[idx_9pm], hourly_code[idx_9pm], True),
 ]
