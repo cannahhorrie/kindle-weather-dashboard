@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 600px;
+    height: 800px;
+    background: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+  }
+  .page {
+    width: 600px;
+    height: 800px;
+    padding: 30px 36px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header row: thin line interrupted by a centered box */
+  .header-row {
+    position: relative;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .header-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1px solid #000000;
+  }
+  .header-box {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    padding: 6px 22px;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+  }
+
+  /* Date */
+  .date {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 42px;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .dashed {
+    border-bottom: 1px dashed #000000;
+    margin-bottom: 18px;
+  }
+
+  /* Weather cards */
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card {
+    border: 2px solid #000000;
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+  }
+  .card-icon {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-icon svg { width: 88px; height: 88px; }
+  .card-mid {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .card-label {
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .card-desc {
+    font-size: 22px;
+    color: #777777;
+  }
+  .card-temp {
+    width: 25%;
+    text-align: right;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: bold;
+    font-size: 62px;
+    line-height: 1;
+  }
+  .card-temp sup {
+    font-size: 0.5em;
+    vertical-align: super;
+  }
+  .card-temp .unit {
+    font-size: 0.55em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+  }
+
+  /* Rain section */
+  .rain-row {
+    border-top: 2px solid #000000;
+    margin-top: 18px;
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+  }
+  .rain-icon { width: 25%; display: flex; align-items: center; justify-content: center; }
+  .rain-icon svg { width: 92px; height: 92px; }
+  .rain-text { width: 75%; }
+  .rain-label {
+    font-weight: bold;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #777777;
+    margin-bottom: 6px;
+  }
+  .rain-value {
+    font-weight: bold;
+    font-size: 50px;
+    line-height: 1.1;
+  }
+  .rain-sub {
+    font-size: 24px;
+    color: #777777;
+    margin-top: 4px;
+  }
+  .umbrella {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 6px;
+  }
+  .footer-line {
+    border-top: 1px solid #000000;
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header-row">
+    <div class="header-box">{{LOCATION}} Weather Dashboard</div>
+  </div>
+
+  <div class="date">{{DATE}}</div>
+  <div class="dashed"></div>
+
+  <div class="cards">
+    {{CARDS}}
+  </div>
+
+  <div class="rain-row">
+    <div class="rain-icon">{{RAIN_ICON}}</div>
+    <div class="rain-text">
+      <div class="rain-label">RAIN PROBABILITY</div>
+      <div class="rain-value">{{RAIN_VALUE}}</div>
+      <div class="rain-sub">{{RAIN_SUB}}</div>
+      {{UMBRELLA}}
+    </div>
+  </div>
+
+  <div class="footer-line"></div>
+
+</div>
+</body>
+</html>
