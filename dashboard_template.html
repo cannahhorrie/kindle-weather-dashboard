@@ -14,7 +14,7 @@
   .page {
     width: 600px;
     height: 800px;
-    padding: 30px 36px 10px;
+    padding: 18px 36px 10px;
     display: flex;
     flex-direction: column;
   }
@@ -77,6 +77,12 @@
     border-top: 1px solid #000000;
     margin-bottom: 4px;
   }
+  .current-conditions {
+    text-align: center;
+    font-size: 14px;
+    color: #777777;
+    margin-bottom: 6px;
+  }
 
   .rows { display: flex; flex-direction: column; }
   .row {
@@ -87,7 +93,7 @@
   }
 
   .time-col {
-    width: 14%;
+    width: 13%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,14 +110,14 @@
   }
 
   .duck-col {
-    width: 22%;
+    width: 24%;
     display: flex;
     justify-content: center;
   }
-  .duck-col img { width: 92px; }
+  .duck-col img { max-width: 92px; max-height: 100px; width: auto; height: auto; }
 
   .icon-col {
-    width: 28%;
+    width: 26%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,7 +142,19 @@
     z-index: 0;
   }
 
-  .info-col { width: 36%; text-align: right; padding-right: 4px; }
+  .wind-col {
+    width: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 2px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #777777;
+  }
+  .wind-col .wind-unit { font-size: 11px; font-weight: normal; }
+
+  .info-col { width: 25%; text-align: right; padding-right: 4px; }
   .info-label {
     font-weight: bold;
     font-size: 22px;
@@ -245,6 +263,7 @@
     <div class="sun-time">{{SUNSET_ICON}}<span class="sun-time-label">SUNSET</span><span class="sun-time-value">{{SUNSET_TIME}}</span></div>
   </div>
   <div class="sun-times-line"></div>
+  <div class="current-conditions">Currently {{CURRENT_TEMP}}&deg;C &middot; Wind {{CURRENT_WIND}} mph</div>
 
   <div class="rows">
     {{ROWS}}

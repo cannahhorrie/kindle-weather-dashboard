@@ -150,11 +150,12 @@ DUCK_FOR_SLOT = {
     "evening": "evening_relax",
 }
 
-# ---- 1. Fetch hourly weather + sunrise/sunset (no API key needed) ----
+# ---- 1. Fetch hourly + current weather, sunrise/sunset (no API key needed) ----
 url = (
     f"https://api.open-meteo.com/v1/forecast?latitude={LAT}&longitude={LON}"
-    "&hourly=temperature_2m,weathercode,precipitation_probability,precipitation"
-    "&daily=sunrise,sunset&timezone=auto&forecast_days=1"
+    "&hourly=temperature_2m,weathercode,precipitation_probability,precipitation,wind_speed_10m"
+    "&current=temperature_2m,wind_speed_10m"
+    "&daily=sunrise,sunset&timezone=auto&forecast_days=1&wind_speed_unit=mph"
 )
 
 print("Fetching weather...")
@@ -165,8 +166,11 @@ hourly_temp = data["hourly"]["temperature_2m"]
 hourly_code = data["hourly"]["weathercode"]
 hourly_pop = data["hourly"]["precipitation_probability"]
 hourly_precip = data["hourly"]["precipitation"]
+hourly_wind = data["hourly"]["wind_speed_10m"]
 sunrise = format_12h(data["daily"]["sunrise"][0])
 sunset = format_12h(data["daily"]["sunset"][0])
+current_temp = round(data["current"]["temperature_2m"])
+current_wind = round(data["current"]["wind_speed_10m"])
 
 now = datetime.datetime.now()
 
@@ -181,19 +185,20 @@ idx_3pm = hour_index(15)
 idx_9pm = hour_index(21)
 
 slots = [
-    ("MORNING", "8 AM", "morning", hourly_temp[idx_8am], hourly_code[idx_8am], False),
-    ("AFTERNOON", "3 PM", "afternoon", hourly_temp[idx_3pm], hourly_code[idx_3pm], False),
-    ("EVENING", "9 PM", "evening", hourly_temp[idx_9pm], hourly_code[idx_9pm], True),
+    ("MORNING", "8 AM", "morning", hourly_temp[idx_8am], hourly_code[idx_8am], hourly_wind[idx_8am], False),
+    ("AFTERNOON", "3 PM", "afternoon", hourly_temp[idx_3pm], hourly_code[idx_3pm], hourly_wind[idx_3pm], False),
+    ("EVENING", "9 PM", "evening", hourly_temp[idx_9pm], hourly_code[idx_9pm], hourly_wind[idx_9pm], True),
 ]
 
 # ---- 2. Build the row HTML ----
 row_html = []
-for label, time_str, key, temp, code, is_night in slots:
+for label, time_str, key, temp, code, wind, is_night in slots:
     row_html.append(f"""
     <div class="row">
       <div class="time-col"><div class="time-badge">{time_str}</div></div>
       <div class="duck-col"><img src="{duck_data_uri(DUCK_FOR_SLOT[key])}"></div>
       <div class="icon-col">{weather_icon_for(code, is_night)}</div>
+      <div class="wind-col">{round(wind)} <span class="wind-unit">mph</span></div>
       <div class="info-col">
         <div class="info-label">{label}</div>
         <div class="info-temp"><span class="num">{round(temp)}</span><span class="deg">&deg;</span><span class="unit">C</span></div>
@@ -232,6 +237,8 @@ html = (
     .replace("{{SUNRISE_TIME}}", sunrise)
     .replace("{{SUNSET_ICON}}", icon_sunset())
     .replace("{{SUNSET_TIME}}", sunset)
+    .replace("{{CURRENT_TEMP}}", str(current_temp))
+    .replace("{{CURRENT_WIND}}", str(current_wind))
     .replace("{{ROWS}}", "".join(row_html))
     .replace("{{RAIN_DUCK}}", f'<img src="{duck_data_uri(rain_duck)}">')
     .replace("{{RAIN_VALUE}}", rain_value)
