@@ -196,12 +196,18 @@ for label, time_str, key, temp, code, is_night in slots:
 max_pop = max(hourly_pop)
 total_precip = sum(hourly_precip)
 
-rain_value = "Unlikely" if max_pop < 30 else "Yes"
+# Probability and amount come from somewhat independent parts of the forecast
+# model, so a marginal day can show a real chance of rain (e.g. 31%) alongside
+# a negligible expected amount (0.0mm) - not worth an umbrella warning unless
+# both agree there's actually meaningful rain coming.
+will_rain = max_pop >= 30 and total_precip >= 0.2
+
+rain_value = "Yes" if will_rain else "Unlikely"
 rain_sub = f"({round(max_pop)}% chance)"
-rain_duck = "rain_probable" if max_pop >= 30 else "sunny"
+rain_duck = "rain_probable" if will_rain else "sunny"
 umbrella_html = ""
 rain_chart_html = ""
-if max_pop >= 30:
+if will_rain:
     umbrella_html = f'<div class="umbrella">~{total_precip:.1f}mm expected — don\'t forget your umbrella!</div>'
     rain_chart_html = f"""
     <div class="rain-chart-row">
