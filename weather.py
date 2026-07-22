@@ -43,6 +43,16 @@ def wicon_img(name):
     return f'<img src="{wicon_data_uri(name)}">'
 
 
+def wicon_moon_cloud_img():
+    # No moon+cloud icon in the sprite sheet - composite the existing moon and
+    # cloud crops ourselves, peeking the moon out from behind the cloud the
+    # same way the sheet's own sun_cloud icon does for daytime.
+    return f"""<div class="moon-cloud-icon">
+      <img class="mc-moon" src="{wicon_data_uri('moon')}">
+      <img class="mc-cloud" src="{wicon_data_uri('cloud')}">
+    </div>"""
+
+
 def format_12h(iso_str):
     dt = datetime.datetime.strptime(iso_str, "%Y-%m-%dT%H:%M")
     hour12 = dt.hour % 12 or 12
@@ -84,7 +94,7 @@ def weather_icon_for(code, night=False):
     if code in (0, 1):
         return wicon_img("moon" if night else "sun")
     if code == 2:
-        return wicon_img("cloud" if night else "sun_cloud")  # no moon+cloud icon in the set
+        return wicon_moon_cloud_img() if night else wicon_img("sun_cloud")
     if code == 3:
         return wicon_img("cloud")  # no plain overcast icon in the set
     if code in (45, 48):
