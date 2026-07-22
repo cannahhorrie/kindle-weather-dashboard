@@ -225,6 +225,7 @@ html = (
     .replace("{{RAIN_SUB}}", rain_sub)
     .replace("{{UMBRELLA}}", umbrella_html)
     .replace("{{RAIN_CHART}}", rain_chart_html)
+    .replace("{{LAST_UPDATED}}", now.strftime("%a %d %b, %H:%M"))
 )
 
 rendered_path = HERE / "dashboard_rendered.html"

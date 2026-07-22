@@ -14,7 +14,7 @@
   .page {
     width: 600px;
     height: 800px;
-    padding: 30px 36px;
+    padding: 30px 36px 10px;
     display: flex;
     flex-direction: column;
   }
@@ -59,7 +59,7 @@
     justify-content: center;
     align-items: center;
     gap: 32px;
-    padding: 6px 0;
+    padding: 2px 0;
   }
   .sun-time { display: flex; align-items: center; gap: 6px; }
   .sun-time svg { width: 22px; height: 22px; }
@@ -82,7 +82,7 @@
   .row {
     display: flex;
     align-items: center;
-    padding: 7px 0;
+    padding: 5px 0;
     border-bottom: 1px solid #000000;
   }
 
@@ -186,8 +186,8 @@
     margin-top: 5px;
   }
   .rain-chart-row {
-    margin-top: 8px;
-    padding-top: 8px;
+    margin-top: 4px;
+    padding-top: 4px;
     border-top: 1px solid #000000;
   }
   .rain-chart-label {
@@ -200,6 +200,13 @@
   .footer-line {
     border-top: 1px solid #000000;
     margin-top: 10px;
+  }
+  .last-updated {
+    font-size: 11px;
+    line-height: 1;
+    color: #777777;
+    text-align: center;
+    margin-top: 2px;
   }
 </style>
 </head>
@@ -239,6 +246,7 @@
   {{RAIN_CHART}}
 
   <div class="footer-line"></div>
+  <div class="last-updated">Last updated: {{LAST_UPDATED}}</div>
 
 </div>
 </body>
