@@ -86,26 +86,29 @@
     border-bottom: 1px solid #000000;
   }
 
-  .duck-col {
-    position: relative;
-    width: 27%;
+  .time-col {
+    width: 14%;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   .time-badge {
-    position: absolute;
-    top: -6px;
-    left: 8px;
     background: #000000;
     color: #ffffff;
     border-radius: 12px;
-    padding: 3px 10px;
+    padding: 4px 10px;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 0.3px;
-    z-index: 2;
+    white-space: nowrap;
   }
-  .duck-col img { width: 92px; margin-top: 14px; }
+
+  .duck-col {
+    width: 22%;
+    display: flex;
+    justify-content: center;
+  }
+  .duck-col img { width: 92px; }
 
   .icon-col {
     width: 28%;
@@ -116,7 +119,7 @@
   .icon-col svg { width: 100px; height: 100px; }
   .icon-col img { width: 100px; height: auto; }
 
-  .info-col { width: 45%; padding-left: 6px; }
+  .info-col { width: 36%; text-align: right; padding-right: 4px; }
   .info-label {
     font-weight: bold;
     font-size: 22px;

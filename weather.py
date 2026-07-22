@@ -181,10 +181,8 @@ row_html = []
 for label, time_str, key, temp, code, is_night in slots:
     row_html.append(f"""
     <div class="row">
-      <div class="duck-col">
-        <div class="time-badge">{time_str}</div>
-        <img src="{duck_data_uri(DUCK_FOR_SLOT[key])}">
-      </div>
+      <div class="time-col"><div class="time-badge">{time_str}</div></div>
+      <div class="duck-col"><img src="{duck_data_uri(DUCK_FOR_SLOT[key])}"></div>
       <div class="icon-col">{weather_icon_for(code, is_night)}</div>
       <div class="info-col">
         <div class="info-label">{label}</div>
