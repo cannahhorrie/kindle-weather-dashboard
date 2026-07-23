@@ -96,7 +96,7 @@ def weather_icon_for(code, night=False):
     if code == 2:
         return wicon_moon_cloud_img() if night else wicon_img("sun_cloud")
     if code == 3:
-        return wicon_img("cloud")  # no plain overcast icon in the set
+        return wicon_moon_cloud_img() if night else wicon_img("cloud")  # no plain overcast icon in the set
     if code in (45, 48):
         return wicon_img("moon_mist" if night else "cloud")  # no daytime mist icon in the set
     if code in (51, 53, 55, 56, 57):
