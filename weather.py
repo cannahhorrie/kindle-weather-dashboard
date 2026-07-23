@@ -204,7 +204,10 @@ for label, time_str, key, temp, code, wind, is_night in slots:
       <div class="time-col"><div class="time-badge">{time_str}</div></div>
       <div class="duck-col"><img src="{duck_data_uri(DUCK_FOR_SLOT[key])}"></div>
       <div class="icon-col">{weather_icon_for(code, is_night)}</div>
-      <div class="wind-col">{round(wind)} <span class="wind-unit">mph</span></div>
+      <div class="wind-col">
+        <img class="wind-icon" src="{wicon_data_uri('wind')}">
+        <div class="wind-value">{round(wind)} <span class="wind-unit">mph</span></div>
+      </div>
       <div class="info-col">
         <div class="info-label">{label}</div>
         <div class="info-temp"><span class="num">{round(temp)}</span><span class="deg">&deg;</span><span class="unit">C</span></div>
