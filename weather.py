@@ -172,7 +172,13 @@ sunset = format_12h(data["daily"]["sunset"][0])
 current_temp = round(data["current"]["temperature_2m"])
 current_wind = round(data["current"]["wind_speed_10m"])
 
-now = datetime.datetime.now()
+# Use the API's own location-local timestamp, not the machine's system
+# clock - GitHub's runners are UTC, and London is UTC+1 in summer, so
+# "now" by system clock can land on the wrong calendar day for roughly an
+# hour each night (right after London midnight but before UTC midnight),
+# causing hour_index() to look up a date that isn't in that day's hourly
+# data at all.
+now = datetime.datetime.strptime(data["current"]["time"], "%Y-%m-%dT%H:%M")
 
 
 def hour_index(target_hour):
