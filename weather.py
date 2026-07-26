@@ -1,5 +1,6 @@
 import base64
 import datetime
+import time
 from pathlib import Path
 
 import requests
@@ -159,7 +160,19 @@ url = (
 )
 
 print("Fetching weather...")
-data = requests.get(url).json()
+# Open-Meteo occasionally returns a malformed/error response with no
+# retry-after info (seen in practice: a bare {"error": ...} with no
+# "hourly" key at all) - a couple of retries handles the transient case
+# without needing to understand exactly why it happened.
+for attempt in range(3):
+    data = requests.get(url).json()
+    if "hourly" in data and "current" in data and "daily" in data:
+        break
+    print(f"Unexpected response (attempt {attempt + 1}/3): {data}")
+    if attempt < 2:
+        time.sleep(5)
+else:
+    raise RuntimeError(f"Open-Meteo didn't return usable data after 3 attempts: {data}")
 
 hourly_time = data["hourly"]["time"]
 hourly_temp = data["hourly"]["temperature_2m"]
