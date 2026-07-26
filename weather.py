@@ -40,8 +40,9 @@ def wicon_data_uri(name):
     return "data:image/png;base64," + base64.b64encode(data).decode()
 
 
-def wicon_img(name):
-    return f'<img src="{wicon_data_uri(name)}">'
+def wicon_img(name, extra_class=""):
+    cls = f' class="{extra_class}"' if extra_class else ""
+    return f'<img{cls} src="{wicon_data_uri(name)}">'
 
 
 def wicon_moon_cloud_img():
@@ -93,7 +94,7 @@ def icon_sunset():
 
 def weather_icon_for(code, night=False):
     if code in (0, 1):
-        return wicon_img("moon" if night else "sun")
+        return wicon_img("moon", "wicon-small") if night else wicon_img("sun")
     if code == 2:
         return wicon_moon_cloud_img() if night else wicon_img("sun_cloud")
     if code == 3:
